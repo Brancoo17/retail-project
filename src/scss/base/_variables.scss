@@ -1,0 +1,50 @@
+// Tipografía
+$fuente-principal: 'Outfit', sans-serif;
+$fuente-secundaria: 'Plus Jakarta Sans', sans-serif;
+
+// Paleta de Colores (Gourmet / Retail / Delivery)
+$naranja-primario: #ea580c;       // Orange 600 - Apetitoso y cálido
+$naranja-hover: #c2410c;          // Orange 700
+$naranja-suave: #fff7ed;          // Orange 50
+$naranja-borde: #fed7aa;          // Orange 200
+
+$negro-fondo: #0f172a;            // Slate 900
+$gris-oscuro: #1e293b;            // Slate 800
+$gris-medio: #334155;             // Slate 700
+$gris-texto: #64748b;             // Slate 500
+$gris-claro: #f1f5f9;             // Slate 100
+$gris-borde: #e2e8f0;             // Slate 200
+$blanco: #ffffff;
+
+$verde-exito: #10b981;            // Emerald 500
+$verde-suave: #ecfdf5;
+$rojo-error: #ef4444;             // Red 500
+$rojo-suave: #fef2f2;
+$amarillo-alerta: #f59e0b;        // Amber 500
+$amarillo-suave: #fffbeb;
+$azul-info: #0284c7;              // Sky 600
+$azul-suave: #f0f9ff;
+
+// Sombras
+$sombra-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+$sombra-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+$sombra-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+$sombra-naranja: 0 10px 25px -5px rgba(234, 88, 12, 0.25);
+
+// Radios
+$radio-sm: 0.375rem;
+$radio-md: 0.5rem;
+$radio-lg: 0.75rem;
+$radio-xl: 1rem;
+$radio-2xl: 1.5rem;
+$radio-full: 9999px;
+
+// Transiciones
+$transicion-rapida: all 0.2s ease-in-out;
+$transicion-suave: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Breakpoints
+$telefono: 480px;
+$tablet: 768px;
+$desktop: 1024px;
+$desktop-xl: 1280px;

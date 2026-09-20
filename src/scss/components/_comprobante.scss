@@ -1,0 +1,290 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+// Tarjeta de estado de pago en el seguimiento
+.pago-card {
+    background-color: v.$blanco;
+    border: 1px solid v.$gris-borde;
+    border-radius: v.$radio-xl;
+    padding: 2.4rem;
+    margin-bottom: 2.4rem;
+    box-shadow: v.$sombra-sm;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
+    @include m.tablet {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__info {
+        display: flex;
+        align-items: center;
+        gap: 1.6rem;
+    }
+
+    &__icono {
+        width: 4.8rem;
+        height: 4.8rem;
+        border-radius: v.$radio-lg;
+        background-color: #f0f9ff;
+        color: #009ee3;
+        @include m.flex-centrado;
+        font-size: 2.2rem;
+        flex-shrink: 0;
+
+        &--efectivo {
+            background-color: #ecfdf5;
+            color: #10b981;
+        }
+
+        &--aprobado {
+            background-color: #ecfdf5;
+            color: #10b981;
+        }
+
+        &--pendiente {
+            background-color: #fff7ed;
+            color: #ea580c;
+        }
+    }
+
+    &__detalles {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+
+        strong {
+            font-size: 1.6rem;
+            color: v.$gris-oscuro;
+        }
+
+        p {
+            font-size: 1.3rem;
+            color: v.$gris-texto;
+            margin: 0;
+        }
+    }
+
+    &__acciones {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    &__boton-mp {
+        background-color: #009ee3;
+        color: v.$blanco;
+        font-weight: 700;
+        font-size: 1.4rem;
+        padding: 1rem 2rem;
+        border-radius: v.$radio-lg;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        transition: v.$transicion-rapida;
+
+        &:hover {
+            background-color: #0081bb;
+            transform: translateY(-2px);
+        }
+    }
+}
+
+// Estructura del Ticket / Comprobante Interno
+.comprobante-wrapper {
+    max-width: 60rem;
+    margin: 3.2rem auto;
+    padding: 0 1.6rem;
+}
+
+.comprobante-acciones-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.comprobante-ticket {
+    background-color: v.$blanco;
+    border: 1px solid v.$gris-borde;
+    border-radius: v.$radio-2xl;
+    padding: 3.2rem;
+    box-shadow: v.$sombra-md;
+    position: relative;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+
+    &__cabecera {
+        text-align: center;
+        padding-bottom: 2.4rem;
+        border-bottom: 2px dashed v.$gris-borde;
+        margin-bottom: 2.4rem;
+    }
+
+    &__logo {
+        width: 6.4rem;
+        height: 6.4rem;
+        object-fit: cover;
+        border-radius: v.$radio-lg;
+        margin: 0 auto 1.2rem auto;
+    }
+
+    &__comercio {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: v.$gris-oscuro;
+        margin-bottom: 0.4rem;
+    }
+
+    &__datos-comercio {
+        font-size: 1.3rem;
+        color: v.$gris-texto;
+        line-height: 1.4;
+    }
+
+    &__numero-badge {
+        margin-top: 1.6rem;
+        display: inline-block;
+        background-color: #f1f5f9;
+        border: 1px solid v.$gris-borde;
+        padding: 0.6rem 1.6rem;
+        border-radius: v.$radio-full;
+        font-family: monospace;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: v.$gris-oscuro;
+        letter-spacing: 0.05em;
+    }
+
+    &__seccion {
+        margin-bottom: 2rem;
+    }
+
+    &__fila-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.3rem;
+        color: v.$gris-texto;
+        margin-bottom: 0.6rem;
+
+        strong {
+            color: v.$gris-oscuro;
+        }
+    }
+
+    &__tabla {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.6rem 0;
+
+        th {
+            text-align: left;
+            font-size: 1.2rem;
+            color: v.$gris-texto;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid v.$gris-borde;
+        }
+
+        td {
+            padding: 1rem 0;
+            font-size: 1.3rem;
+            color: v.$gris-oscuro;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: top;
+        }
+
+        .td-cant {
+            width: 3.6rem;
+            font-weight: 700;
+        }
+
+        .td-precio, .th-precio {
+            text-align: right;
+        }
+    }
+
+    &__totales {
+        padding-top: 1.6rem;
+        border-top: 2px dashed v.$gris-borde;
+        margin-bottom: 2rem;
+    }
+
+    &__fila-total {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.4rem;
+        color: v.$gris-texto;
+        margin-bottom: 0.6rem;
+
+        &--gran-total {
+            margin-top: 1.2rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid v.$gris-borde;
+            font-size: 2rem;
+            font-weight: 800;
+            color: v.$gris-oscuro;
+
+            span:last-child {
+                color: v.$naranja-primario;
+            }
+        }
+    }
+
+    &__pie {
+        text-align: center;
+        padding-top: 1.6rem;
+        border-top: 1px solid #f1f5f9;
+        font-size: 1.2rem;
+        color: #94a3b8;
+    }
+
+    &__sello-pagado {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        color: #10b981;
+        font-weight: 800;
+        font-size: 1.4rem;
+        border: 2px solid #10b981;
+        border-radius: v.$radio-lg;
+        padding: 0.6rem 1.6rem;
+        margin-top: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+}
+
+// Reglas de impresión
+@media print {
+    body {
+        background: #fff !important;
+    }
+
+    .header,
+    .footer,
+    .comprobante-acciones-top,
+    .banner-pedido-activo,
+    .boton-carrito-flotante,
+    .carrito-drawer,
+    .carrito-overlay {
+        display: none !important;
+    }
+
+    .comprobante-wrapper {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .comprobante-ticket {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Retail Delivery - Menú & Pedidos Online",
+  "short_name": "Retail Delivery",
+  "description": "Plataforma gastronómica y sistema de delivery online en tiempo real.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#ea580c",
+  "icons": [
+    {
+      "src": "/build/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/build/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

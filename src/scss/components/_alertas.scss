@@ -1,0 +1,30 @@
+@use '../base/variables' as v;
+
+.alerta {
+    padding: 1.4rem 1.8rem;
+    border-radius: v.$radio-lg;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+
+    &.error {
+        background-color: v.$rojo-suave;
+        color: v.$rojo-error;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    &.exito {
+        background-color: v.$verde-suave;
+        color: v.$verde-exito;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    &.alerta {
+        background-color: v.$amarillo-suave;
+        color: v.$amarillo-alerta;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+}

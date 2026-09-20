@@ -1,0 +1,265 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.tracker-contenedor {
+    max-width: 80rem;
+    margin: 0 auto;
+}
+
+// Stepper horizontal de estados del pedido
+.tracker-stepper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    margin: 3.2rem 0 4rem 0;
+    padding: 0 1rem;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 2rem;
+        left: 3rem;
+        right: 3rem;
+        height: 4px;
+        background-color: v.$gris-borde;
+        z-index: 1;
+    }
+
+    &__progreso {
+        position: absolute;
+        top: 2rem;
+        left: 3rem;
+        height: 4px;
+        background-color: v.$verde-exito;
+        z-index: 2;
+        transition: width 0.5s ease;
+    }
+}
+
+.tracker-paso {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    flex: 1;
+
+    &__icono {
+        width: 4.4rem;
+        height: 4.4rem;
+        border-radius: v.$radio-full;
+        background-color: v.$blanco;
+        border: 3px solid v.$gris-borde;
+        @include m.flex-centrado;
+        font-size: 1.6rem;
+        color: v.$gris-texto;
+        transition: v.$transicion-rapida;
+    }
+
+    &__texto {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: v.$gris-texto;
+        max-width: 10rem;
+        line-height: 1.2;
+    }
+
+    &--completado {
+        .tracker-paso__icono {
+            background-color: v.$verde-exito;
+            border-color: v.$verde-exito;
+            color: v.$blanco;
+        }
+
+        .tracker-paso__texto {
+            color: v.$gris-oscuro;
+            font-weight: 700;
+        }
+    }
+
+    &--actual {
+        .tracker-paso__icono {
+            background-color: v.$blanco;
+            border-color: v.$naranja-primario;
+            color: v.$naranja-primario;
+            box-shadow: 0 0 0 6px rgba(234, 88, 12, 0.15);
+            animation: pulso 2s infinite;
+        }
+
+        .tracker-paso__texto {
+            color: v.$naranja-primario;
+            font-weight: 800;
+        }
+    }
+}
+
+@keyframes pulso {
+    0% {
+        box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(234, 88, 12, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(234, 88, 12, 0);
+    }
+}
+
+// Alerta y tarjeta de cancelación
+.cancelacion-card {
+    background-color: #fffaf0;
+    border: 1px solid v.$naranja-borde;
+    border-radius: v.$radio-xl;
+    padding: 2rem 2.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 2.8rem;
+
+    @include m.tablet {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__info {
+        display: flex;
+        align-items: center;
+        gap: 1.4rem;
+
+        i {
+            font-size: 2.4rem;
+            color: v.$naranja-primario;
+        }
+    }
+
+    &__texto {
+        font-size: 1.4rem;
+        color: v.$gris-oscuro;
+
+        strong {
+            color: v.$naranja-primario;
+        }
+    }
+}
+
+// Banner flotante superior para pedidos en curso (invitados)
+.banner-pedido-activo {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: v.$blanco;
+    padding: 1rem 0;
+    border-bottom: 2px solid v.$naranja-primario;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 950;
+    animation: deslizarAbajo 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &--oculto {
+        display: none !important;
+    }
+
+    &__contenido {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+    }
+
+    &__info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.4rem;
+        font-weight: 500;
+
+        i {
+            color: v.$naranja-primario;
+            font-size: 1.6rem;
+        }
+
+        strong {
+            color: v.$naranja-primario;
+            font-weight: 800;
+        }
+    }
+
+    &__pulso {
+        width: 1rem;
+        height: 1rem;
+        border-radius: v.$radio-full;
+        background-color: #10b981;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        animation: pulsoVerde 1.8s infinite;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+
+    &__acciones {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+    &__boton {
+        background-color: v.$naranja-primario;
+        color: v.$blanco;
+        font-size: 1.3rem;
+        font-weight: 700;
+        padding: 0.6rem 1.4rem;
+        border-radius: v.$radio-full;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        transition: v.$transicion-rapida;
+
+        &:hover {
+            background-color: #c2410c;
+            transform: translateY(-1px);
+        }
+    }
+
+    &__cerrar {
+        background: none;
+        border: none;
+        color: #94a3b8;
+        font-size: 1.6rem;
+        cursor: pointer;
+        padding: 0.4rem;
+        border-radius: v.$radio-full;
+        transition: v.$transicion-rapida;
+        @include m.flex-centrado;
+
+        &:hover {
+            color: v.$blanco;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    }
+}
+
+@keyframes deslizarAbajo {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulsoVerde {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}

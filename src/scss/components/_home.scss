@@ -1,0 +1,415 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+// ==========================================
+// LANDING GASTRONÓMICA / HOME PAGE
+// ==========================================
+
+.hero {
+    padding: 6rem 0 5rem 0;
+    position: relative;
+    background: radial-gradient(circle at top right, rgba(234, 88, 12, 0.08), transparent 60%);
+
+    &__contenido {
+        display: grid;
+        gap: 4rem;
+        align-items: center;
+
+        @include m.desktop {
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 5rem;
+        }
+    }
+
+    &__texto {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    &__badge-estado {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.6rem 1.4rem;
+        border-radius: v.$radio-full;
+        font-size: 1.35rem;
+        font-weight: 600;
+        background-color: v.$naranja-suave;
+        color: v.$naranja-primario;
+        width: fit-content;
+        border: 1px solid rgba(234, 88, 12, 0.2);
+
+        .punto-pulso {
+            width: 0.9rem;
+            height: 0.9rem;
+            border-radius: 50%;
+            background-color: v.$verde-exito;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulso 1.8s infinite;
+        }
+    }
+
+    &__titulo {
+        font-size: 3.6rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        color: v.$gris-oscuro;
+
+        span {
+            color: v.$naranja-primario;
+            display: inline;
+        }
+
+        @include m.tablet {
+            font-size: 4.6rem;
+        }
+
+        @include m.desktop {
+            font-size: 5.2rem;
+        }
+    }
+
+    &__descripcion {
+        font-size: 1.7rem;
+        color: v.$gris-texto;
+        line-height: 1.6;
+        max-width: 54rem;
+    }
+
+    &__acciones {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.4rem;
+        margin-top: 1rem;
+    }
+
+    &__garantias {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid v.$gris-borde;
+
+        &-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.35rem;
+            color: v.$gris-texto;
+            font-weight: 500;
+
+            i {
+                color: v.$naranja-primario;
+                font-size: 1.6rem;
+            }
+        }
+    }
+
+    &__visual {
+        @include m.flex-centrado;
+    }
+}
+
+// Tarjeta Gastronómica Hero (Visual interactivo)
+.tarjeta-hero-gastronomica {
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    color: v.$blanco;
+    border-radius: v.$radio-2xl;
+    padding: 3.5rem 3rem;
+    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    width: 100%;
+    max-width: 42rem;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -30%;
+        right: -30%;
+        width: 20rem;
+        height: 20rem;
+        background: radial-gradient(circle, rgba(234, 88, 12, 0.3), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    &__cabecera {
+        display: flex;
+        align-items: center;
+        gap: 1.6rem;
+    }
+
+    &__icono-comercio {
+        width: 5.6rem;
+        height: 5.6rem;
+        border-radius: v.$radio-xl;
+        background: rgba(234, 88, 12, 0.2);
+        color: v.$naranja-primario;
+        @include m.flex-centrado;
+        font-size: 2.6rem;
+        border: 1px solid rgba(234, 88, 12, 0.3);
+    }
+
+    &__titulo-comercio {
+        font-size: 2rem;
+        font-weight: 700;
+        color: v.$blanco;
+        margin: 0;
+    }
+
+    &__subtitulo-comercio {
+        font-size: 1.35rem;
+        color: #94a3b8;
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 1.4rem;
+        background: rgba(255, 255, 255, 0.04);
+        padding: 1.2rem 1.6rem;
+        border-radius: v.$radio-lg;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+
+        &-icono {
+            width: 3.8rem;
+            height: 3.8rem;
+            border-radius: 50%;
+            @include m.flex-centrado;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+
+            &--fuego {
+                background: rgba(234, 88, 12, 0.2);
+                color: #fb923c;
+            }
+
+            &--envio {
+                background: rgba(16, 185, 129, 0.2);
+                color: #34d399;
+            }
+
+            &--reloj {
+                background: rgba(56, 189, 248, 0.2);
+                color: #38bdf8;
+            }
+        }
+
+        &-texto {
+            display: flex;
+            flex-direction: column;
+
+            strong {
+                font-size: 1.45rem;
+                color: v.$blanco;
+                font-weight: 600;
+            }
+
+            small {
+                font-size: 1.25rem;
+                color: #94a3b8;
+            }
+        }
+    }
+
+    &__pie {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+        span {
+            font-size: 1.3rem;
+            color: #94a3b8;
+        }
+
+        .badge-mp {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(0, 158, 227, 0.15);
+            color: #38bdf8;
+            padding: 0.4rem 1rem;
+            border-radius: v.$radio-full;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+    }
+}
+
+// Categorías Rápidas / Pills
+.home-categorias {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin: 3rem 0;
+
+    &__item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1rem 2rem;
+        background-color: v.$blanco;
+        border: 1px solid v.$gris-borde;
+        border-radius: v.$radio-full;
+        font-size: 1.45rem;
+        font-weight: 600;
+        color: v.$gris-oscuro;
+        text-decoration: none;
+        transition: v.$transicion-suave;
+        box-shadow: v.$sombra-sm;
+
+        i {
+            color: v.$naranja-primario;
+            font-size: 1.5rem;
+        }
+
+        &:hover {
+            border-color: v.$naranja-primario;
+            color: v.$naranja-primario;
+            transform: translateY(-2px);
+            box-shadow: v.$sombra-md;
+        }
+    }
+}
+
+// Pasos para ordenar
+.home-paso {
+    background-color: v.$blanco;
+    border-radius: v.$radio-2xl;
+    padding: 3.5rem 3rem;
+    border: 1px solid v.$gris-borde;
+    box-shadow: v.$sombra-sm;
+    position: relative;
+    overflow: hidden;
+    transition: v.$transicion-suave;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
+    &:hover {
+        transform: translateY(-6px);
+        box-shadow: v.$sombra-lg;
+        border-color: v.$naranja-borde;
+    }
+
+    &__numero {
+        position: absolute;
+        top: 1.5rem;
+        right: 2rem;
+        font-size: 4.8rem;
+        font-weight: 900;
+        color: rgba(234, 88, 12, 0.08);
+        line-height: 1;
+        user-select: none;
+    }
+
+    &__icono {
+        width: 6rem;
+        height: 6rem;
+        border-radius: v.$radio-xl;
+        background: v.$naranja-suave;
+        color: v.$naranja-primario;
+        @include m.flex-centrado;
+        font-size: 2.4rem;
+    }
+
+    &__titulo {
+        font-size: 2rem;
+        font-weight: 700;
+        color: v.$gris-oscuro;
+        margin: 0;
+    }
+
+    &__texto {
+        font-size: 1.5rem;
+        color: v.$gris-texto;
+        line-height: 1.6;
+        margin: 0;
+    }
+}
+
+// Ficha de Contacto & Ubicación
+.home-info-local {
+    background: linear-gradient(135deg, v.$blanco, #f8fafc);
+    border-radius: v.$radio-2xl;
+    border: 1px solid v.$gris-borde;
+    padding: 4rem 3rem;
+    box-shadow: v.$sombra-md;
+    display: grid;
+    gap: 3rem;
+
+    @include m.tablet {
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+    }
+
+    &__detalles {
+        display: flex;
+        flex-direction: column;
+        gap: 1.8rem;
+    }
+
+    &__item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.4rem;
+
+        i {
+            color: v.$naranja-primario;
+            font-size: 2rem;
+            margin-top: 0.2rem;
+        }
+
+        strong {
+            font-size: 1.5rem;
+            color: v.$gris-oscuro;
+            display: block;
+        }
+
+        span {
+            font-size: 1.45rem;
+            color: v.$gris-texto;
+        }
+    }
+
+    &__acciones {
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
+        justify-content: center;
+
+        @include m.tablet {
+            align-items: flex-end;
+        }
+    }
+}
+
+@keyframes pulso {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}

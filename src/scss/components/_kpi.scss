@@ -1,0 +1,82 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+    margin-bottom: 2.8rem;
+
+    @include m.tablet {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.kpi-card {
+    background-color: v.$blanco;
+    border: 1px solid v.$gris-borde;
+    border-radius: v.$radio-lg;
+    padding: 2rem 2.4rem;
+    box-shadow: v.$sombra-sm;
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+    transition: v.$transicion-rapida;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: v.$sombra-md;
+    }
+
+    &__icono {
+        width: 5.2rem;
+        height: 5.2rem;
+        border-radius: v.$radio-md;
+        @include m.flex-centrado;
+        font-size: 2.2rem;
+        flex-shrink: 0;
+
+        &--total {
+            background-color: v.$azul-suave;
+            color: v.$azul-info;
+        }
+
+        &--alerta {
+            background-color: v.$amarillo-suave;
+            color: v.$amarillo-alerta;
+        }
+
+        &--peligro {
+            background-color: v.$rojo-suave;
+            color: v.$rojo-error;
+        }
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    &__valor {
+        font-size: 2.6rem;
+        font-weight: 800;
+        color: v.$gris-oscuro;
+        line-height: 1;
+        letter-spacing: -0.02em;
+    }
+
+    &__etiqueta {
+        font-size: 1.3rem;
+        color: v.$gris-texto;
+        font-weight: 500;
+    }
+
+    &--alerta {
+        border-color: #fef08a;
+    }
+
+    &--peligro {
+        border-color: #fecaca;
+    }
+}

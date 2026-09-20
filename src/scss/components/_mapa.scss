@@ -1,0 +1,63 @@
+@use '../base/variables' as v;
+
+.mapa-interactivo {
+    width: 100%;
+    height: 38rem;
+    border-radius: v.$radio-lg;
+    border: 1px solid v.$gris-borde;
+    box-shadow: v.$sombra-sm;
+    margin: 1.6rem 0;
+    z-index: 10;
+}
+
+.mapa-coordenadas {
+    margin-top: 1.2rem;
+}
+
+.logo-preview-contenedor {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    margin-bottom: 1.2rem;
+}
+
+.logo-preview {
+    width: 7.2rem;
+    height: 7.2rem;
+    object-fit: cover;
+    border-radius: v.$radio-lg;
+    border: 2px solid v.$naranja-borde;
+    box-shadow: v.$sombra-sm;
+}
+
+.color-picker-grupo {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.color-picker {
+    width: 5rem;
+    height: 4.2rem;
+    padding: 0.2rem;
+    border: 1px solid v.$gris-borde;
+    border-radius: v.$radio-md;
+    cursor: pointer;
+    background: none;
+
+    &::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+
+    &::-webkit-color-swatch {
+        border: none;
+        border-radius: v.$radio-sm;
+    }
+}
+
+.color-picker-codigo {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: v.$gris-oscuro;
+    font-family: monospace;
+}

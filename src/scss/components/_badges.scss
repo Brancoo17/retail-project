@@ -1,0 +1,63 @@
+@use '../base/variables' as v;
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-radius: v.$radio-full;
+    width: fit-content;
+
+    &--destacado {
+        background-color: v.$naranja-suave;
+        color: v.$naranja-primario;
+        border: 1px solid v.$naranja-borde;
+    }
+
+    &--exito {
+        background-color: v.$verde-suave;
+        color: v.$verde-exito;
+    }
+
+    &--error {
+        background-color: v.$rojo-suave;
+        color: v.$rojo-error;
+    }
+
+    &--alerta {
+        background-color: v.$amarillo-suave;
+        color: v.$amarillo-alerta;
+    }
+
+    &--info {
+        background-color: v.$azul-suave;
+        color: v.$azul-info;
+    }
+
+    &--compra {
+        background-color: v.$verde-suave;
+        color: v.$verde-exito;
+    }
+
+    &--merma {
+        background-color: v.$rojo-suave;
+        color: v.$rojo-error;
+    }
+
+    &--ajuste {
+        background-color: #ede9fe;
+        color: #7c3aed;
+    }
+
+    &--cancelacion {
+        background-color: v.$naranja-suave;
+        color: v.$naranja-primario;
+    }
+
+    &--venta {
+        background-color: #f1f5f9;
+        color: #475569;
+    }
+}

@@ -1,0 +1,295 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+// Botón flotante para ver pedido
+.boton-carrito-flotante {
+    position: fixed;
+    bottom: 2.4rem;
+    right: 2.4rem;
+    background: linear-gradient(135deg, v.$naranja-primario, #c2410c);
+    color: v.$blanco;
+    border-radius: v.$radio-full;
+    padding: 1.4rem 2.4rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    box-shadow: 0 8px 24px rgba(234, 88, 12, 0.4);
+    cursor: pointer;
+    z-index: 900;
+    transition: v.$transicion-rapida;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+
+    &:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 12px 28px rgba(234, 88, 12, 0.5);
+    }
+
+    &__icono {
+        position: relative;
+        font-size: 2rem;
+    }
+
+    &__badge {
+        position: absolute;
+        top: -0.8rem;
+        right: -0.8rem;
+        background-color: v.$blanco;
+        color: v.$naranja-primario;
+        font-size: 1.1rem;
+        font-weight: 800;
+        min-width: 2rem;
+        height: 2rem;
+        border-radius: v.$radio-full;
+        @include m.flex-centrado;
+        border: 2px solid v.$naranja-primario;
+    }
+
+    &__texto {
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+
+    &__total {
+        font-weight: 800;
+        font-size: 1.6rem;
+        padding-left: 0.8rem;
+        border-left: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    &--oculto {
+        display: none;
+    }
+}
+
+// Drawer / Sidebar lateral del Carrito
+.carrito-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1100;
+    opacity: 0;
+    visibility: hidden;
+    transition: v.$transicion-rapida;
+
+    &--activo {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.carrito-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 44rem;
+    background-color: v.$blanco;
+    z-index: 1200;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &--activo,
+    &--abierto {
+        transform: translateX(0);
+    }
+
+    .carrito-overlay--activo ~ & {
+        transform: translateX(0);
+    }
+
+    &__cabecera {
+        padding: 2rem 2.4rem;
+        border-bottom: 1px solid v.$gris-borde;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__titulo {
+        font-size: 2rem;
+        font-weight: 800;
+        color: v.$gris-oscuro;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        i {
+            color: v.$naranja-primario;
+        }
+    }
+
+    &__cerrar {
+        width: 3.6rem;
+        height: 3.6rem;
+        border-radius: v.$radio-full;
+        background-color: v.$gris-claro;
+        border: 1px solid v.$gris-borde;
+        @include m.flex-centrado;
+        cursor: pointer;
+        color: v.$gris-texto;
+        transition: v.$transicion-rapida;
+
+        &:hover {
+            color: v.$rojo-error;
+            background-color: v.$rojo-suave;
+        }
+    }
+
+    &__cuerpo {
+        flex: 1;
+        overflow-y: auto;
+        padding: 2rem 2.4rem;
+    }
+
+    &__vacio {
+        height: 100%;
+        @include m.flex-centrado;
+        flex-direction: column;
+        text-align: center;
+        color: v.$gris-texto;
+        gap: 1.6rem;
+
+        i {
+            font-size: 5rem;
+            color: #cbd5e1;
+        }
+
+        h4 {
+            font-size: 1.8rem;
+            color: v.$gris-oscuro;
+            margin: 0;
+        }
+
+        p {
+            font-size: 1.4rem;
+            margin: 0;
+        }
+    }
+
+    &__pie {
+        padding: 2rem 2.4rem;
+        border-top: 1px solid v.$gris-borde;
+        background-color: #fafaf9;
+    }
+
+    &__subtotal-fila {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.6rem;
+
+        span:first-child {
+            font-size: 1.6rem;
+            color: v.$gris-texto;
+            font-weight: 600;
+        }
+
+        span:last-child {
+            font-size: 2.2rem;
+            color: v.$gris-oscuro;
+            font-weight: 800;
+        }
+    }
+
+    &__boton-checkout {
+        width: 100%;
+    }
+}
+
+// Líneas de producto en el carrito
+.carrito-item {
+    padding: 1.6rem 0;
+    border-bottom: 1px solid v.$gris-borde;
+    display: flex;
+    gap: 1.2rem;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &__info {
+        flex: 1;
+    }
+
+    &__nombre {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: v.$gris-oscuro;
+        margin-bottom: 0.4rem;
+    }
+
+    &__opciones {
+        font-size: 1.2rem;
+        color: v.$gris-texto;
+        margin-bottom: 0.6rem;
+        line-height: 1.4;
+    }
+
+    &__notas {
+        font-size: 1.2rem;
+        font-style: italic;
+        color: v.$naranja-primario;
+        margin-bottom: 0.6rem;
+    }
+
+    &__controles {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+    &__cantidad-ctrl {
+        display: flex;
+        align-items: center;
+        border: 1px solid v.$gris-borde;
+        border-radius: v.$radio-md;
+        overflow: hidden;
+
+        button {
+            width: 2.8rem;
+            height: 2.8rem;
+            background-color: v.$blanco;
+            border: none;
+            cursor: pointer;
+            @include m.flex-centrado;
+            font-size: 1.2rem;
+            color: v.$gris-oscuro;
+
+            &:hover {
+                background-color: v.$gris-claro;
+            }
+        }
+
+        span {
+            min-width: 2.4rem;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+    }
+
+    &__eliminar {
+        background: none;
+        border: none;
+        color: v.$rojo-error;
+        font-size: 1.3rem;
+        cursor: pointer;
+        padding: 0.4rem;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    &__total {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: v.$gris-oscuro;
+        align-self: flex-start;
+    }
+}

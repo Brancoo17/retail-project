@@ -1,0 +1,19 @@
+{
+    "name": "retail-mvc",
+    "version": "1.0.0",
+    "description": "Sistema de gestión para comercios de comida con delivery - PHP MVC SASS Gulp",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "dev": "gulp"
+    },
+    "license": "ISC",
+    "devDependencies": {
+        "glob": "^10.3.12",
+        "gulp": "^5.0.0",
+        "gulp-sass": "^5.1.0",
+        "gulp-terser": "^2.1.0",
+        "sass": "^1.75.0",
+        "sharp": "^0.33.3"
+    }
+}

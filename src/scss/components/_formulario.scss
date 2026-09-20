@@ -1,0 +1,111 @@
+@use '../base/variables' as v;
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    label {
+        margin-top: 2rem;
+    }
+
+    &__campo {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+
+        &--flex-1 {
+            flex: 1;
+            min-width: 18rem;
+        }
+
+        &--flex-2 {
+            flex: 2;
+            min-width: 24rem;
+        }
+    }
+
+    &__label {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: v.$gris-oscuro;
+    }
+
+    &__input {
+        padding: 1.2rem 1.6rem;
+        border: 1px solid v.$gris-borde;
+        border-radius: v.$radio-lg;
+        font-size: 1.5rem;
+        color: v.$gris-oscuro;
+        background-color: v.$blanco;
+        transition: v.$transicion-rapida;
+
+        &::placeholder {
+            color: #94a3b8;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: v.$naranja-primario;
+            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15);
+        }
+    }
+
+    &__acciones {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        margin-top: 1.6rem;
+        text-align: center;
+
+        a {
+            font-size: 1.4rem;
+            color: v.$gris-texto;
+            font-weight: 500;
+            transition: v.$transicion-rapida;
+
+            &:hover {
+                color: v.$naranja-primario;
+            }
+        }
+    }
+}
+
+// Contenedor y botón de mostrar/ocultar contraseña
+.campo-password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    input {
+        width: 100%;
+        padding-right: 4.6rem !important;
+    }
+
+    .btn-toggle-password {
+        position: absolute;
+        right: 1.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: v.$gris-texto;
+        cursor: pointer;
+        font-size: 1.6rem;
+        padding: 0.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: v.$transicion-rapida;
+        z-index: 2;
+
+        &:hover {
+            color: v.$naranja-primario;
+        }
+
+        &.activo {
+            color: v.$naranja-primario;
+        }
+    }
+}

@@ -1,0 +1,190 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.header {
+    background-color: v.$blanco;
+    border-bottom: 1px solid v.$gris-borde;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: v.$sombra-sm;
+
+    &__contenido {
+        @include m.flex-entre;
+        padding: 1.2rem 0;
+        position: relative;
+
+        @include m.tablet {
+            padding: 1.6rem 0;
+        }
+    }
+
+    &__logo {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-weight: 800;
+        font-size: 1.9rem;
+        color: v.$gris-oscuro;
+        transition: v.$transicion-rapida;
+
+        @include m.tablet {
+            font-size: 2.2rem;
+            gap: 1rem;
+        }
+
+        &:hover {
+            color: v.$naranja-primario;
+        }
+
+        &-icono {
+            color: v.$naranja-primario;
+            font-size: 2.2rem;
+
+            @include m.tablet {
+                font-size: 2.4rem;
+            }
+        }
+
+        &-img {
+            max-height: 3.8rem;
+            width: auto;
+            object-fit: contain;
+
+            @include m.tablet {
+                max-height: 4.4rem;
+            }
+        }
+
+        &-acento {
+            color: v.$naranja-primario;
+        }
+    }
+
+    &__hamburguesa {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 4rem;
+        height: 4rem;
+        border-radius: v.$radio-md;
+        border: 1px solid v.$gris-borde;
+        background: transparent;
+        color: v.$gris-oscuro;
+        font-size: 1.8rem;
+        cursor: pointer;
+        transition: v.$transicion-rapida;
+
+        &:hover,
+        &:focus {
+            background-color: v.$naranja-suave;
+            color: v.$naranja-primario;
+            border-color: v.$naranja-borde;
+            outline: none;
+        }
+
+        @include m.tablet {
+            display: none;
+        }
+    }
+}
+
+.navegacion {
+    // Modo móvil: menú desplegable debajo de la cabecera
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: v.$blanco;
+    padding: 1.6rem 2rem 2rem 2rem;
+    border-bottom: 3px solid v.$naranja-primario;
+    box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.15);
+    z-index: 60;
+    border-radius: 0 0 v.$radio-lg v.$radio-lg;
+
+    &.navegacion--activa {
+        display: flex;
+        animation: animarMenuHeader 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    &__enlace {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: v.$gris-oscuro;
+        padding: 1.2rem 1.4rem;
+        border-radius: v.$radio-md;
+        transition: v.$transicion-rapida;
+        display: flex;
+        align-items: center;
+
+        &:hover,
+        &.activo {
+            color: v.$naranja-primario;
+            background-color: v.$naranja-suave;
+        }
+
+        &--logout {
+            color: v.$rojo-error;
+
+            &:hover {
+                color: v.$rojo-error;
+                background-color: v.$rojo-suave;
+            }
+        }
+    }
+
+    &__boton {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        padding: 1.2rem;
+        font-size: 1.5rem;
+        margin-top: 0.6rem;
+    }
+
+    // Modo Desktop: barra horizontal
+    @include m.tablet {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
+        background-color: transparent;
+        padding: 0;
+        border-bottom: none;
+        box-shadow: none;
+        border-radius: 0;
+        gap: 1.6rem;
+
+        &__enlace {
+            font-size: 1.5rem;
+            color: v.$gris-texto;
+            padding: 0.6rem 1.2rem;
+            width: auto;
+        }
+
+        &__boton {
+            width: auto;
+            margin-top: 0;
+            padding: 0.8rem 1.6rem;
+            font-size: 1.4rem;
+        }
+    }
+}
+
+@keyframes animarMenuHeader {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

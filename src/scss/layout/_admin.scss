@@ -1,0 +1,107 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.admin-encabezado {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 1.2rem;
+    margin-bottom: 3.2rem;
+    width: 100%;
+
+    .boton {
+        width: fit-content;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        gap: 0.6rem;
+    }
+
+    &__titulo {
+        font-size: 3rem;
+        font-weight: 800;
+        color: v.$gris-oscuro;
+        margin: 0;
+        text-align: left;
+        letter-spacing: -0.02em;
+    }
+
+    &__subtitulo {
+        font-size: 1.6rem;
+        color: v.$gris-texto;
+        margin: 0;
+        text-align: left;
+    }
+
+    &__acciones {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        margin-top: 0.6rem;
+        align-self: flex-start;
+    }
+}
+
+.admin-tarjeta {
+    background-color: v.$blanco;
+    border: 1px solid v.$gris-borde;
+    border-radius: v.$radio-xl;
+    padding: 2.8rem;
+    box-shadow: v.$sombra-sm;
+    margin-bottom: 2.4rem;
+
+    &__titulo {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: v.$gris-oscuro;
+        padding: 0 1rem;
+        margin-bottom: 1.6rem;
+
+        i {
+            color: v.$naranja-primario;
+        }
+    }
+
+    &__descripcion {
+        font-size: 1.4rem;
+        color: v.$gris-texto;
+        margin-bottom: 1.6rem;
+        line-height: 1.5;
+    }
+}
+
+.formulario--admin {
+    max-width: 90rem;
+    margin: 0 auto;
+
+    .formulario__ayuda {
+        font-size: 1.2rem;
+        color: v.$gris-texto;
+        margin-top: 0.4rem;
+    }
+}
+
+.formulario__acciones-admin {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+
+    .boton {
+        min-width: 22rem;
+    }
+}
+
+.header__logo-img {
+    width: 3.8rem;
+    height: 3.8rem;
+    object-fit: cover;
+    border-radius: v.$radio-md;
+}

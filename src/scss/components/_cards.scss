@@ -1,0 +1,148 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+// Hero Section
+.hero {
+    padding: 7rem 0 5rem 0;
+
+    &__contenido {
+        display: grid;
+        gap: 4rem;
+        align-items: center;
+
+        @include m.desktop {
+            grid-template-columns: 1.2fr 0.8fr;
+        }
+    }
+
+    &__texto {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    &__titulo {
+        font-size: 3.8rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: v.$gris-oscuro;
+
+        @include m.tablet {
+            font-size: 4.8rem;
+        }
+    }
+
+    &__descripcion {
+        font-size: 1.8rem;
+        color: v.$gris-texto;
+        max-width: 55rem;
+    }
+
+    &__acciones {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.4rem;
+        margin-top: 1rem;
+    }
+
+    &__visual {
+        @include m.flex-centrado;
+    }
+}
+
+// Tarjeta Resumen / Status en Hero
+.tarjeta-resumen {
+    background: linear-gradient(135deg, v.$gris-oscuro, v.$negro-fondo);
+    color: v.$blanco;
+    border-radius: v.$radio-xl;
+    padding: 3rem;
+    box-shadow: v.$sombra-lg;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 40rem;
+    width: 100%;
+
+    &__icono {
+        width: 6.4rem;
+        height: 6.4rem;
+        border-radius: v.$radio-lg;
+        background-color: rgba(234, 88, 12, 0.2);
+        color: v.$naranja-primario;
+        @include m.flex-centrado;
+        font-size: 2.8rem;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    &__etiqueta {
+        font-size: 1.3rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: v.$gris-texto;
+    }
+
+    &__valor {
+        font-size: 2rem;
+        font-weight: 700;
+        color: v.$blanco;
+    }
+}
+
+// Card de Módulos
+.card-modulo {
+    background-color: v.$blanco;
+    border-radius: v.$radio-xl;
+    padding: 3.2rem;
+    border: 1px solid v.$gris-borde;
+    box-shadow: v.$sombra-sm;
+    transition: v.$transicion-suave;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: v.$sombra-md;
+        border-color: v.$naranja-borde;
+    }
+
+    &__icono {
+        width: 5.6rem;
+        height: 5.6rem;
+        border-radius: v.$radio-lg;
+        @include m.flex-centrado;
+        font-size: 2.2rem;
+
+        &--pedidos {
+            background-color: v.$naranja-suave;
+            color: v.$naranja-primario;
+        }
+
+        &--stock {
+            background-color: v.$azul-suave;
+            color: v.$azul-info;
+        }
+
+        &--caja {
+            background-color: v.$verde-suave;
+            color: v.$verde-exito;
+        }
+    }
+
+    &__titulo {
+        font-size: 2.2rem;
+        color: v.$gris-oscuro;
+    }
+
+    &__texto {
+        font-size: 1.5rem;
+        color: v.$gris-texto;
+        line-height: 1.6;
+    }
+}

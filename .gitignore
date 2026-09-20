@@ -1,0 +1,11 @@
+/vendor/
+/node_modules/
+/public/build/
+/public/imagenes/*
+!/public/imagenes/.gitkeep
+.env
+.DS_Store
+Thumbs.db
+*.log
+
+/sql/

@@ -1,0 +1,379 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+// Navegación por categorías en el menú
+.menu-categorias {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    overflow-x: auto;
+    padding: 1.2rem 0;
+    margin-bottom: 3.2rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    &__item {
+        padding: 1rem 2rem;
+        background-color: v.$blanco;
+        border: 1px solid v.$gris-borde;
+        border-radius: v.$radio-full;
+        color: v.$gris-oscuro;
+        font-weight: 600;
+        font-size: 1.4rem;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: v.$transicion-rapida;
+        text-decoration: none;
+
+        &:hover,
+        &--activo {
+            background-color: v.$naranja-primario;
+            color: v.$blanco;
+            border-color: v.$naranja-primario;
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
+        }
+    }
+}
+
+// Sección de cada categoría de productos
+.menu-seccion {
+    margin-bottom: 4.8rem;
+
+    &__titulo {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: v.$gris-oscuro;
+        margin-bottom: 2rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 2px solid v.$naranja-suave;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        i {
+            color: v.$naranja-primario;
+        }
+    }
+}
+
+// Grid y tarjetas de productos
+.menu-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+
+    @include m.tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include m.desktop {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.card-producto {
+    background-color: v.$blanco;
+    border: 1px solid v.$gris-borde;
+    border-radius: v.$radio-xl;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: v.$sombra-sm;
+    transition: v.$transicion-rapida;
+    position: relative;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: v.$sombra-md;
+        border-color: v.$naranja-borde;
+    }
+
+    &__imagen-contenedor {
+        position: relative;
+        width: 100%;
+        height: 20rem;
+        background-color: v.$gris-claro;
+        overflow: hidden;
+    }
+
+    &__imagen {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+
+        .card-producto:hover & {
+            transform: scale(1.05);
+        }
+    }
+
+    &__placeholder {
+        width: 100%;
+        height: 100%;
+        @include m.flex-centrado;
+        font-size: 4rem;
+        color: #cbd5e1;
+    }
+
+    &__cuerpo {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    &__nombre {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: v.$gris-oscuro;
+        margin-bottom: 0.6rem;
+    }
+
+    &__descripcion {
+        font-size: 1.3rem;
+        color: v.$gris-texto;
+        line-height: 1.5;
+        margin-bottom: 1.6rem;
+        flex: 1;
+    }
+
+    &__pie {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 1.2rem;
+        border-top: 1px solid v.$gris-borde;
+    }
+
+    &__precio {
+        font-size: 2rem;
+        font-weight: 800;
+        color: v.$gris-oscuro;
+    }
+
+    &--agotado {
+        opacity: 0.7;
+        filter: grayscale(0.6);
+
+        &:hover {
+            transform: none;
+            box-shadow: v.$sombra-sm;
+            border-color: v.$gris-borde;
+        }
+    }
+}
+
+// Modal de personalización de producto
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    @include m.flex-centrado;
+    padding: 2rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: v.$transicion-rapida;
+
+    &--activo {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.modal-producto {
+    background-color: v.$blanco;
+    border-radius: v.$radio-2xl;
+    width: 100%;
+    max-width: 55rem;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: v.$sombra-lg;
+    position: relative;
+    transform: scale(0.95);
+    transition: v.$transicion-rapida;
+
+    .modal-overlay--activo & {
+        transform: scale(1);
+    }
+
+    &__cerrar {
+        position: absolute;
+        top: 1.6rem;
+        right: 1.6rem;
+        width: 3.6rem;
+        height: 3.6rem;
+        border-radius: v.$radio-full;
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid v.$gris-borde;
+        @include m.flex-centrado;
+        font-size: 1.6rem;
+        cursor: pointer;
+        z-index: 10;
+        color: v.$gris-oscuro;
+        transition: v.$transicion-rapida;
+
+        &:hover {
+            background-color: v.$rojo-suave;
+            color: v.$rojo-error;
+        }
+    }
+
+    &__imagen {
+        width: 100%;
+        height: 22rem;
+        object-fit: cover;
+        border-top-left-radius: v.$radio-2xl;
+        border-top-right-radius: v.$radio-2xl;
+    }
+
+    &__contenido {
+        padding: 2.4rem;
+    }
+
+    &__titulo {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: v.$gris-oscuro;
+        margin-bottom: 0.6rem;
+    }
+
+    &__descripcion {
+        font-size: 1.4rem;
+        color: v.$gris-texto;
+        margin-bottom: 2rem;
+        line-height: 1.5;
+    }
+
+    &__grupo-opciones {
+        margin-bottom: 2rem;
+        padding-top: 1.6rem;
+        border-top: 1px solid v.$gris-borde;
+    }
+
+    &__grupo-titulo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: v.$gris-oscuro;
+        margin-bottom: 1.2rem;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__aderezos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+        gap: 0.8rem;
+    }
+
+    &__aderezo-chip {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.8rem 1.2rem;
+        border: 1px solid v.$gris-borde;
+        border-radius: v.$radio-md;
+        cursor: pointer;
+        background-color: #ffffff;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: v.$gris-oscuro;
+        transition: v.$transicion-rapida;
+
+        &:hover {
+            border-color: v.$naranja-primario;
+            background-color: #fff7ed;
+        }
+
+        &:has(input:checked) {
+            border-color: #ea580c;
+            background-color: #fff7ed;
+            color: #ea580c;
+        }
+    }
+
+    &__opcion {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.4rem;
+        border: 1px solid v.$gris-borde;
+        border-radius: v.$radio-lg;
+        margin-bottom: 0.8rem;
+        cursor: pointer;
+        transition: v.$transicion-rapida;
+
+        &:hover {
+            border-color: v.$naranja-primario;
+            background-color: #fffaf0;
+        }
+
+        &--seleccionada {
+            border-color: v.$naranja-primario;
+            background-color: v.$naranja-suave;
+        }
+    }
+
+    &__opcion-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: v.$gris-oscuro;
+    }
+
+    &__opcion-precio {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: v.$naranja-primario;
+    }
+
+    &__pie {
+        display: flex;
+        align-items: center;
+        gap: 1.6rem;
+        padding-top: 2rem;
+        border-top: 1px solid v.$gris-borde;
+    }
+
+    &__cantidad {
+        display: flex;
+        align-items: center;
+        border: 1px solid v.$gris-borde;
+        border-radius: v.$radio-lg;
+        overflow: hidden;
+
+        button {
+            width: 4rem;
+            height: 4.4rem;
+            background-color: v.$blanco;
+            border: none;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: v.$gris-oscuro;
+            cursor: pointer;
+            @include m.flex-centrado;
+
+            &:hover {
+                background-color: v.$gris-claro;
+            }
+        }
+
+        span {
+            min-width: 3.6rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.6rem;
+        }
+    }
+
+    &__boton-agregar {
+        flex: 1;
+    }
+}

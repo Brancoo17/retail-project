@@ -1,0 +1,206 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3.2rem;
+
+    @include m.desktop {
+        grid-template-columns: 1.6fr 1fr;
+        align-items: flex-start;
+    }
+}
+
+// Selector tipo toggle para Delivery vs. Retiro
+.checkout-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 2.4rem;
+
+    &__tab {
+        padding: 1.6rem 2rem;
+        background-color: v.$blanco;
+        border: 2px solid v.$gris-borde;
+        border-radius: v.$radio-xl;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+        transition: v.$transicion-rapida;
+        text-align: center;
+
+        i {
+            font-size: 2.4rem;
+            color: v.$gris-texto;
+            transition: color 0.2s;
+        }
+
+        strong {
+            font-size: 1.5rem;
+            color: v.$gris-oscuro;
+        }
+
+        small {
+            font-size: 1.2rem;
+            color: v.$gris-texto;
+        }
+
+        &:hover {
+            border-color: v.$naranja-borde;
+        }
+
+        &--activo {
+            border-color: v.$naranja-primario;
+            background-color: #fffaf0;
+
+            i {
+                color: v.$naranja-primario;
+            }
+
+            strong {
+                color: v.$naranja-primario;
+            }
+        }
+    }
+}
+
+// Mapa en el checkout
+.checkout-mapa-contenedor {
+    margin-bottom: 2rem;
+    border-radius: v.$radio-xl;
+    overflow: hidden;
+    border: 1px solid v.$gris-borde;
+    box-shadow: v.$sombra-sm;
+}
+
+#mapa-checkout {
+    width: 100%;
+    height: 28rem;
+}
+
+.checkout-envio-kpi {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: v.$naranja-suave;
+    border: 1px solid v.$naranja-borde;
+    border-radius: v.$radio-lg;
+    padding: 1.2rem 1.6rem;
+    margin-bottom: 1.6rem;
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    &__etiqueta {
+        font-size: 1.2rem;
+        color: v.$gris-texto;
+    }
+
+    &__valor {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: v.$naranja-primario;
+    }
+}
+
+// Selector de método de pago
+.metodos-pago {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    margin-top: 1rem;
+
+    @include m.tablet {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    &__item {
+        padding: 1.6rem;
+        border: 2px solid v.$gris-borde;
+        border-radius: v.$radio-lg;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 1.4rem;
+        transition: v.$transicion-rapida;
+
+        i {
+            font-size: 2.2rem;
+            color: v.$gris-texto;
+        }
+
+        &--activo {
+            border-color: v.$naranja-primario;
+            background-color: #fffaf0;
+
+            i {
+                color: v.$naranja-primario;
+            }
+        }
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+
+        strong {
+            font-size: 1.4rem;
+            color: v.$gris-oscuro;
+        }
+
+        small {
+            font-size: 1.2rem;
+            color: v.$gris-texto;
+        }
+    }
+}
+
+// Tarjeta de resumen de pedido flotante
+.resumen-pedido {
+    background-color: v.$blanco;
+    border: 1px solid v.$gris-borde;
+    border-radius: v.$radio-xl;
+    padding: 2.4rem;
+    box-shadow: v.$sombra-sm;
+    position: sticky;
+    top: 2rem;
+
+    &__titulo {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: v.$gris-oscuro;
+        margin-bottom: 1.6rem;
+        padding-bottom: 1.2rem;
+        border-bottom: 1px solid v.$gris-borde;
+    }
+
+    &__items {
+        max-height: 25rem;
+        overflow-y: auto;
+        margin-bottom: 1.6rem;
+    }
+
+    &__fila {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.8rem 0;
+        font-size: 1.4rem;
+        color: v.$gris-texto;
+
+        &--total {
+            padding-top: 1.6rem;
+            border-top: 2px solid v.$gris-borde;
+            font-size: 2rem;
+            font-weight: 800;
+            color: v.$gris-oscuro;
+        }
+    }
+}

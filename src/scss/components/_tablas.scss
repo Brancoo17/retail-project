@@ -1,0 +1,215 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.tabla-contenedor {
+    background-color: v.$blanco;
+    border: 1px solid v.$gris-borde;
+    border-radius: v.$radio-xl;
+    overflow-x: auto;
+    box-shadow: v.$sombra-sm;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 1.4rem;
+
+    th {
+        padding: 1.6rem 2rem;
+    }
+
+    td {
+        padding: 1.6rem 2rem;
+    }
+
+    &__thead {
+        background-color: v.$gris-claro;
+        border-bottom: 1px solid v.$gris-borde;
+    }
+
+    &__th {
+        padding: 1.4rem 2rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 1.2rem;
+        color: v.$gris-texto;
+
+        &--acciones {
+            text-align: right;
+        }
+    }
+
+    &__tr {
+        border-bottom: 1px solid v.$gris-borde;
+        transition: v.$transicion-rapida;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &:hover {
+            background-color: #fafaf9;
+        }
+    }
+
+    &__td {
+        padding: 1.6rem 2rem;
+        vertical-align: middle;
+        color: v.$gris-oscuro;
+
+        &--nombre {
+            font-size: 1.5rem;
+        }
+
+        &--orden {
+            width: 8rem;
+        }
+
+        &--foto {
+            width: 7rem;
+        }
+
+        &--acciones {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.8rem;
+        }
+    }
+}
+
+.boton-accion {
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: v.$radio-md;
+    border: 1px solid v.$gris-borde;
+    background-color: v.$blanco;
+    color: v.$gris-texto;
+    @include m.flex-centrado;
+    cursor: pointer;
+    transition: v.$transicion-rapida;
+    font-size: 1.4rem;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    &--editar {
+        &:hover {
+            color: v.$naranja-primario;
+            border-color: v.$naranja-primario;
+            background-color: v.$naranja-suave;
+        }
+    }
+
+    &--eliminar {
+        &:hover {
+            color: v.$rojo-error;
+            border-color: v.$rojo-error;
+            background-color: v.$rojo-suave;
+        }
+    }
+}
+
+.badge--orden {
+    background-color: v.$gris-claro;
+    color: v.$gris-oscuro;
+    font-weight: 700;
+}
+
+.badge--categoria {
+    background-color: v.$azul-suave;
+    color: v.$azul-info;
+    font-weight: 600;
+}
+
+.precio-destacado {
+    font-weight: 700;
+    color: v.$gris-oscuro;
+    font-size: 1.5rem;
+}
+
+.producto-thumb {
+    width: 4.8rem;
+    height: 4.8rem;
+    object-fit: cover;
+    border-radius: v.$radio-md;
+    border: 1px solid v.$gris-borde;
+}
+
+.producto-thumb-placeholder {
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: v.$radio-md;
+    background-color: v.$gris-claro;
+    color: v.$gris-texto;
+    @include m.flex-centrado;
+    font-size: 1.8rem;
+}
+
+.producto-desc-corta {
+    font-size: 1.2rem;
+    color: v.$gris-texto;
+    margin-top: 0.2rem;
+}
+
+.producto-preview-contenedor {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    margin-bottom: 1rem;
+}
+
+.producto-preview {
+    width: 9rem;
+    height: 9rem;
+    object-fit: cover;
+    border-radius: v.$radio-lg;
+    border: 2px solid v.$naranja-borde;
+}
+
+.formulario-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+    align-items: flex-start;
+    padding-top: 1.6rem;
+    border-top: 1px solid v.$gris-borde;
+
+    &__campo {
+        flex: 1;
+        min-width: 25rem;
+    }
+
+    &__accion-submit {
+        align-self: flex-end;
+        
+        .boton {
+            height: 4.8rem;
+        }
+    }
+}
+
+.tabla__unidad {
+    font-size: 1.2rem;
+    color: v.$gris-texto;
+    margin-left: 0.2rem;
+}
+
+.card-modulo--vacio {
+    text-align: center;
+    align-items: center;
+    padding: 5rem 2rem;
+
+    &__icono {
+        font-size: 4.8rem;
+        color: v.$gris-texto;
+        margin-bottom: 1.6rem;
+    }
+
+    &__boton {
+        margin-top: 1.6rem;
+    }
+}
