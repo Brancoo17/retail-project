@@ -78,6 +78,73 @@
 
     <!-- PESTAÑA 1: TABLERO KANBAN EN VIVO -->
     <div id="kds-vista-activas">
+
+        <!-- RESUMEN DE PRODUCCIÓN ALL-DAY (PROPUESTA 3) -->
+        <div class="kds-allday">
+            <div class="kds-allday__cabecera" onclick="toggleKdsAllDay()" title="Clic para expandir o colapsar el resumen">
+                <div class="kds-allday__titulo">
+                    <i class="fa-solid fa-fire-flame-curved"></i>
+                    <span>Resumen de Producción (All-Day Counter)</span>
+                </div>
+                <div class="kds-allday__meta">
+                    <span class="kds-allday__total-badge" id="kds-allday-total-badge">
+                        <?php echo (int)($totalPlatosEnMarcha ?? 0); ?> platos en marcha
+                    </span>
+                    <i class="fa-solid fa-chevron-down kds-allday__toggle-icon" id="kds-allday-toggle-icon"></i>
+                </div>
+            </div>
+            <div class="kds-allday__cuerpo" id="kds-allday-cuerpo">
+                <?php if(empty($allDayItems)): ?>
+                    <p class="kds-allday__vacio">
+                        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+                        <span>No hay platos pendientes en cocina en este momento.</span>
+                    </p>
+                <?php else: ?>
+                    <?php foreach($allDayItems as $item): ?>
+                        <div class="kds-allday__pill" title="<?php echo !empty($item['detalles_resumen']) ? htmlspecialchars(implode(' · ', $item['detalles_resumen']), ENT_QUOTES, 'UTF-8') : ''; ?>">
+                            <span class="kds-allday__pill-cant"><?php echo (int)$item['cantidad']; ?>x</span>
+                            <span class="kds-allday__pill-nombre"><?php echo s($item['nombre']); ?></span>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <?php
+        $comandasDataStore = [];
+        $prepararModalData = function($ped, $detalles, $esPresencial, $comprobante, $pago) use (&$comandasDataStore) {
+            $detallesArray = [];
+            foreach($detalles as $det) {
+                $detallesArray[] = [
+                    'id' => (int)$det->id,
+                    'nombre' => $det->nombre_producto,
+                    'cantidad' => (int)$det->cantidad,
+                    'opciones_texto' => $det->opciones_texto,
+                    'badges_html' => \Classes\KdsHelper::renderBadgesHTML($det->opciones_texto)
+                ];
+            }
+            $info = [
+                'id' => (int)$ped->id,
+                'tipo' => $ped->tipo,
+                'tipo_texto' => $ped->tipo === 'delivery' ? 'Delivery' : ($esPresencial ? 'Mostrador' : 'Retiro Online'),
+                'estado' => $ped->estado,
+                'estado_texto' => $ped->estadoTexto(),
+                'cliente' => $ped->nombre_contacto,
+                'telefono' => $ped->telefono_contacto,
+                'direccion' => $ped->direccion_texto,
+                'hora' => date('H:i', strtotime($ped->creado_en)),
+                'minutos' => $ped->minutosTranscurridos(),
+                'metodo_pago' => strtoupper($ped->metodo_pago),
+                'pago_aprobado' => ($pago && $pago->esAprobado()),
+                'total' => number_format((float)$ped->total, 2, ',', '.'),
+                'comprobante_id' => $comprobante ? (int)$comprobante->id : null,
+                'items' => $detallesArray
+            ];
+            $comandasDataStore[(int)$ped->id] = $info;
+            return $info;
+        };
+        ?>
+
         <div class="kds-tablero">
             
             <!-- COLUMNA 1: POR PREPARAR -->
@@ -103,6 +170,7 @@
                                 $pago = $ped->pago();
                                 $comprobante = $ped->comprobante();
                                 $esPresencial = ($ped->telefono_contacto === 'Mostrador');
+                                $modalData = $prepararModalData($ped, $detalles, $esPresencial, $comprobante, $pago);
                             ?>
                             <div class="comanda-card" data-id="<?php echo (int)$ped->id; ?>">
                                 <div class="comanda-card__encabezado">
@@ -133,15 +201,13 @@
                                     <?php endif; ?>
                                 </div>
 
-                                <div class="comanda-card__items">
+                                <div class="comanda-card__items comanda-card__items--clickeable" onclick="abrirModalDetalleComanda(<?php echo (int)$ped->id; ?>)" title="Clic para abrir comanda en pantalla completa">
                                     <?php foreach($detalles as $det): ?>
                                         <div class="comanda-card__item">
                                             <span class="comanda-card__item-cant"><?php echo (int)$det->cantidad; ?>x</span>
                                             <div class="comanda-card__item-info">
                                                 <div class="comanda-card__item-nombre"><?php echo s($det->nombre_producto); ?></div>
-                                                <?php if(!empty($det->opciones_texto)): ?>
-                                                    <div class="comanda-card__item-opciones"><?php echo s($det->opciones_texto); ?></div>
-                                                <?php endif; ?>
+                                                <?php echo \Classes\KdsHelper::renderBadgesHTML($det->opciones_texto); ?>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
@@ -165,10 +231,15 @@
                                     </form>
 
                                     <div class="comanda-card__acciones-fila">
+                                        <button type="button" class="boton boton--secundario boton--pequeno" onclick="abrirModalDetalleComanda(<?php echo (int)$ped->id; ?>)" title="Ver checklist y detalles">
+                                            <i class="fa-solid fa-list-check"></i>
+                                            <span>Detalle</span>
+                                        </button>
+
                                         <?php if($comprobante): ?>
                                             <a href="/comprobante?id=<?php echo (int)$comprobante->id; ?>" target="_blank" class="boton boton--secundario boton--pequeno u-ancho-completo" title="Imprimir comanda térmica">
                                                 <i class="fa-solid fa-print"></i>
-                                                <span>Imprimir Ticket</span>
+                                                <span>Ticket</span>
                                             </a>
                                         <?php endif; ?>
 
@@ -206,6 +277,7 @@
                                 $pago = $ped->pago();
                                 $comprobante = $ped->comprobante();
                                 $esPresencial = ($ped->telefono_contacto === 'Mostrador');
+                                $modalData = $prepararModalData($ped, $detalles, $esPresencial, $comprobante, $pago);
                             ?>
                             <div class="comanda-card" data-id="<?php echo (int)$ped->id; ?>">
                                 <div class="comanda-card__encabezado">
@@ -236,15 +308,13 @@
                                     <?php endif; ?>
                                 </div>
 
-                                <div class="comanda-card__items">
+                                <div class="comanda-card__items comanda-card__items--clickeable" onclick="abrirModalDetalleComanda(<?php echo (int)$ped->id; ?>)" title="Clic para abrir comanda en pantalla completa">
                                     <?php foreach($detalles as $det): ?>
                                         <div class="comanda-card__item">
                                             <span class="comanda-card__item-cant"><?php echo (int)$det->cantidad; ?>x</span>
                                             <div class="comanda-card__item-info">
                                                 <div class="comanda-card__item-nombre"><?php echo s($det->nombre_producto); ?></div>
-                                                <?php if(!empty($det->opciones_texto)): ?>
-                                                    <div class="comanda-card__item-opciones"><?php echo s($det->opciones_texto); ?></div>
-                                                <?php endif; ?>
+                                                <?php echo \Classes\KdsHelper::renderBadgesHTML($det->opciones_texto); ?>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
@@ -268,10 +338,15 @@
                                     <?php endif; ?>
 
                                     <div class="comanda-card__acciones-fila">
+                                        <button type="button" class="boton boton--secundario boton--pequeno" onclick="abrirModalDetalleComanda(<?php echo (int)$ped->id; ?>)" title="Ver checklist y detalles">
+                                            <i class="fa-solid fa-list-check"></i>
+                                            <span>Detalle</span>
+                                        </button>
+
                                         <?php if($comprobante): ?>
                                             <a href="/comprobante?id=<?php echo (int)$comprobante->id; ?>" target="_blank" class="boton boton--secundario boton--pequeno u-ancho-completo" title="Imprimir comanda térmica">
                                                 <i class="fa-solid fa-print"></i>
-                                                <span>Imprimir Ticket</span>
+                                                <span>Ticket</span>
                                             </a>
                                         <?php endif; ?>
 
@@ -312,6 +387,7 @@
                                 $pago = $ped->pago();
                                 $esPresencial = ($ped->telefono_contacto === 'Mostrador');
                                 $requiereCobroRetiro = ($ped->tipo !== 'delivery' && $ped->metodo_pago === 'efectivo' && (!$pago || $pago->esPendiente()));
+                                $modalData = $prepararModalData($ped, $detalles, $esPresencial, $comprobante, $pago);
                             ?>
                             <div class="comanda-card" data-id="<?php echo (int)$ped->id; ?>">
                                 <div class="comanda-card__encabezado">
@@ -347,12 +423,13 @@
                                     <?php endif; ?>
                                 </div>
 
-                                <div class="comanda-card__items">
+                                <div class="comanda-card__items comanda-card__items--clickeable" onclick="abrirModalDetalleComanda(<?php echo (int)$ped->id; ?>)" title="Clic para abrir comanda en pantalla completa">
                                     <?php foreach($detalles as $det): ?>
                                         <div class="comanda-card__item">
                                             <span class="comanda-card__item-cant"><?php echo (int)$det->cantidad; ?>x</span>
                                             <div class="comanda-card__item-info">
                                                 <div class="comanda-card__item-nombre"><?php echo s($det->nombre_producto); ?></div>
+                                                <?php echo \Classes\KdsHelper::renderBadgesHTML($det->opciones_texto); ?>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
@@ -385,12 +462,19 @@
                                         </form>
                                     <?php endif; ?>
 
-                                    <?php if($comprobante): ?>
-                                        <a href="/comprobante?id=<?php echo (int)$comprobante->id; ?>" target="_blank" class="boton boton--secundario boton--pequeno u-ancho-completo" title="Ver comprobante">
-                                            <i class="fa-solid fa-receipt"></i>
-                                            <span>Comprobante (<?php echo s($comprobante->codigoFormateado()); ?>)</span>
-                                        </a>
-                                    <?php endif; ?>
+                                    <div class="comanda-card__acciones-fila" style="margin-top: 0.6rem;">
+                                        <button type="button" class="boton boton--secundario boton--pequeno" onclick="abrirModalDetalleComanda(<?php echo (int)$ped->id; ?>)" title="Ver detalle completo">
+                                            <i class="fa-solid fa-list-check"></i>
+                                            <span>Detalle</span>
+                                        </button>
+
+                                        <?php if($comprobante): ?>
+                                            <a href="/comprobante?id=<?php echo (int)$comprobante->id; ?>" target="_blank" class="boton boton--secundario boton--pequeno u-ancho-completo" title="Ver comprobante">
+                                                <i class="fa-solid fa-receipt"></i>
+                                                <span>Ticket (<?php echo s($comprobante->codigoFormateado()); ?>)</span>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -464,6 +548,66 @@
         </div>
     </div>
 
+</div>
+
+<!-- MODAL DE ENFOQUE Y CHECKLIST DE COMANDA (PROPUESTA 2) -->
+<div id="modal-comanda-detalle" class="modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 1.6rem;">
+    <div class="kds-modal-detalle">
+        <div class="kds-modal-detalle__header">
+            <div class="kds-modal-detalle__header-info">
+                <span class="kds-modal-detalle__comanda-num" id="modal-detalle-num">#0</span>
+                <span class="kds-modal-detalle__tipo-badge" id="modal-detalle-tipo">Delivery</span>
+                <span class="badge" id="modal-detalle-estado">En Preparación</span>
+            </div>
+            <button type="button" onclick="cerrarModalDetalleComanda()" class="kds-modal-detalle__btn-cerrar" title="Cerrar modal (Esc)">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="kds-modal-detalle__cuerpo">
+            <!-- Datos del cliente / entrega -->
+            <div class="kds-modal-detalle__cliente-card">
+                <div class="kds-modal-detalle__meta-bloque">
+                    <div><i class="fa-solid fa-user" style="color: #64748b;"></i> Cliente: <strong id="modal-detalle-cliente">-</strong></div>
+                    <div id="modal-detalle-tel-fila" style="margin-top: 0.4rem;"><i class="fa-solid fa-phone" style="color: #64748b;"></i> Teléfono: <strong id="modal-detalle-telefono">-</strong></div>
+                </div>
+                <div class="kds-modal-detalle__meta-bloque">
+                    <div><i class="fa-regular fa-clock" style="color: #64748b;"></i> Ingreso: <strong id="modal-detalle-hora">-</strong> (<span id="modal-detalle-minutos">0 min</span>)</div>
+                    <div id="modal-detalle-dir-fila" style="margin-top: 0.4rem; display: none;"><i class="fa-solid fa-location-dot" style="color: #ef4444;"></i> Dirección: <strong id="modal-detalle-direccion">-</strong></div>
+                </div>
+            </div>
+
+            <!-- Checklist interactivo de platos -->
+            <div class="kds-modal-detalle__seccion-titulo">
+                <span><i class="fa-solid fa-utensils"></i> Ítems de la Comanda</span>
+                <span class="kds-modal-detalle__checklist-instruccion">
+                    <i class="fa-solid fa-hand-pointer"></i> Toca cada plato al completar su cocción
+                </span>
+            </div>
+
+            <div class="kds-modal-detalle__checklist" id="modal-detalle-checklist">
+                <!-- Ítems inyectados dinámicamente -->
+            </div>
+        </div>
+
+        <div class="kds-modal-detalle__footer">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="font-size: 1.3rem; color: #64748b;">Progreso de la comanda:</span>
+                <strong id="modal-detalle-progreso" style="font-size: 1.4rem; color: #0f172a;">0 / 0 platos</strong>
+            </div>
+
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <a id="modal-detalle-btn-ticket" href="#" target="_blank" class="boton boton--secundario boton--pequeno" style="display: none;">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Ticket Térmico</span>
+                </a>
+                <button type="button" onclick="cerrarModalDetalleComanda()" class="boton boton--primario">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Cerrar Detalle</span>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- MODAL ASIGNAR REPARTIDOR -->
@@ -1144,4 +1288,176 @@ function abrirModalCancelar(pedidoId) {
 function cerrarModalCancelar() {
     document.getElementById('modal-cancelar').style.display = 'none';
 }
+
+/* ====================================================================
+   LÓGICA DEL RESUMEN ALL-DAY Y MODAL DE ENFOQUE CHECKLIST
+   ==================================================================== */
+window.kdsComandasStore = <?php echo json_encode($comandasDataStore ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?> || {};
+
+function toggleKdsAllDay() {
+    const cuerpo = document.getElementById('kds-allday-cuerpo');
+    const icon = document.getElementById('kds-allday-toggle-icon');
+    if (!cuerpo) return;
+    const isHidden = cuerpo.style.display === 'none';
+    cuerpo.style.display = isHidden ? 'flex' : 'none';
+    if (icon) {
+        if (isHidden) {
+            icon.classList.remove('kds-allday__toggle-icon--rotado');
+        } else {
+            icon.classList.add('kds-allday__toggle-icon--rotado');
+        }
+    }
+    localStorage.setItem('kds_allday_colapsado', isHidden ? '0' : '1');
+}
+
+// Recuperar preferencia de All-Day colapsado al iniciar
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('kds_allday_colapsado') === '1') {
+        const cuerpo = document.getElementById('kds-allday-cuerpo');
+        const icon = document.getElementById('kds-allday-toggle-icon');
+        if (cuerpo) cuerpo.style.display = 'none';
+        if (icon) icon.classList.add('kds-allday__toggle-icon--rotado');
+    }
+});
+
+function abrirModalDetalleComanda(pedidoId) {
+    const data = window.kdsComandasStore[pedidoId];
+    if (!data) return;
+
+    document.getElementById('modal-detalle-num').textContent = '#' + data.id;
+
+    // Badge Tipo (Delivery / Mostrador / Retiro)
+    const tipoBadge = document.getElementById('modal-detalle-tipo');
+    tipoBadge.textContent = data.tipo_texto;
+    tipoBadge.className = 'kds-modal-detalle__tipo-badge comanda-card__tipo-badge--' + data.tipo;
+
+    // Badge Estado
+    const estadoBadge = document.getElementById('modal-detalle-estado');
+    estadoBadge.textContent = data.estado_texto;
+    estadoBadge.className = 'badge ' + (data.estado === 'en_preparacion' ? 'badge--info' : (data.estado === 'en_camino' ? 'badge--exito' : 'badge--alerta'));
+
+    // Datos de Cliente y Tiempos
+    document.getElementById('modal-detalle-cliente').textContent = data.cliente || 'Consumidor Final';
+    document.getElementById('modal-detalle-telefono').textContent = data.telefono || '-';
+    document.getElementById('modal-detalle-hora').textContent = data.hora + ' hs';
+    document.getElementById('modal-detalle-minutos').textContent = data.minutos + ' min transcurridos';
+
+    const dirFila = document.getElementById('modal-detalle-dir-fila');
+    if (data.tipo === 'delivery' && data.direccion) {
+        dirFila.style.display = 'block';
+        document.getElementById('modal-detalle-direccion').textContent = data.direccion;
+    } else {
+        dirFila.style.display = 'none';
+    }
+
+    // Botón Ticket Térmico
+    const btnTicket = document.getElementById('modal-detalle-btn-ticket');
+    if (data.comprobante_id) {
+        btnTicket.href = '/comprobante?id=' + data.comprobante_id;
+        btnTicket.style.display = 'inline-flex';
+    } else {
+        btnTicket.style.display = 'none';
+    }
+
+    // Renderizar Checklist interactivo
+    const checklistCont = document.getElementById('modal-detalle-checklist');
+    const checkedKey = 'kds_checklist_' + data.id;
+    let checkedItems = {};
+    try {
+        checkedItems = JSON.parse(sessionStorage.getItem(checkedKey) || '{}');
+    } catch (e) {
+        checkedItems = {};
+    }
+
+    let itemsHtml = '';
+    (data.items || []).forEach((item, idx) => {
+        const isChecked = !!checkedItems[idx];
+        const checkedClass = isChecked ? ' kds-checklist-item--completado' : '';
+        const checkIcon = isChecked ? '<i class="fa-solid fa-check"></i>' : '';
+
+        itemsHtml += `
+            <div class="kds-checklist-item${checkedClass}" data-item-idx="${idx}" onclick="toggleChecklistItem(this, ${data.id}, ${idx})">
+                <div class="kds-checklist-box">${checkIcon}</div>
+                <span class="kds-checklist-item__cant">${item.cantidad}x</span>
+                <div class="kds-checklist-item__info">
+                    <div class="kds-checklist-item__nombre">${escapeHtmlKds(item.nombre)}</div>
+                    ${item.badges_html || ''}
+                </div>
+            </div>
+        `;
+    });
+
+    checklistCont.innerHTML = itemsHtml;
+    actualizarProgresoChecklist(data.id, (data.items || []).length);
+
+    document.getElementById('modal-comanda-detalle').style.display = 'flex';
+}
+
+function toggleChecklistItem(el, pedidoId, idx) {
+    const checkedKey = 'kds_checklist_' + pedidoId;
+    let checkedItems = {};
+    try {
+        checkedItems = JSON.parse(sessionStorage.getItem(checkedKey) || '{}');
+    } catch (e) {
+        checkedItems = {};
+    }
+
+    const isChecked = el.classList.toggle('kds-checklist-item--completado');
+    const box = el.querySelector('.kds-checklist-box');
+    if (isChecked) {
+        checkedItems[idx] = true;
+        if (box) box.innerHTML = '<i class="fa-solid fa-check"></i>';
+    } else {
+        delete checkedItems[idx];
+        if (box) box.innerHTML = '';
+    }
+
+    sessionStorage.setItem(checkedKey, JSON.stringify(checkedItems));
+
+    const data = window.kdsComandasStore[pedidoId];
+    if (data && data.items) {
+        actualizarProgresoChecklist(pedidoId, data.items.length);
+    }
+}
+
+function actualizarProgresoChecklist(pedidoId, totalItems) {
+    const checkedKey = 'kds_checklist_' + pedidoId;
+    let checkedItems = {};
+    try {
+        checkedItems = JSON.parse(sessionStorage.getItem(checkedKey) || '{}');
+    } catch (e) {
+        checkedItems = {};
+    }
+    const completados = Object.keys(checkedItems).length;
+    const progEl = document.getElementById('modal-detalle-progreso');
+    if (progEl) {
+        progEl.textContent = `${completados} / ${totalItems} platos listos`;
+        if (completados === totalItems && totalItems > 0) {
+            progEl.style.color = '#16a34a';
+        } else {
+            progEl.style.color = '#0f172a';
+        }
+    }
+}
+
+function cerrarModalDetalleComanda() {
+    const modal = document.getElementById('modal-comanda-detalle');
+    if (modal) modal.style.display = 'none';
+}
+
+function escapeHtmlKds(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        cerrarModalDetalleComanda();
+    }
+});
 </script>

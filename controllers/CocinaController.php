@@ -17,6 +17,7 @@ use Model\Insumo;
 use Model\MovimientoStock;
 use Model\ProductoOpcion;
 use Model\Aderezo;
+use Classes\KdsHelper;
 
 class CocinaController {
 
@@ -74,6 +75,9 @@ class CocinaController {
 
         $aderezos = Aderezo::porComercio($comercioId, true);
 
+        // Resumen consolidado de producción (All-Day Counter) para comandas en preparación y nuevos
+        $allDayData = KdsHelper::calcularAllDay(array_merge($nuevos, $enCocina));
+
         $router->render('cocina/index', [
             'titulo' => 'Consola de Cocina & Despacho (KDS)',
             'nuevos' => $nuevos,
@@ -84,7 +88,9 @@ class CocinaController {
             'sesionCaja' => $sesionCaja,
             'categorias' => $categorias,
             'productos' => $productos,
-            'aderezos' => $aderezos
+            'aderezos' => $aderezos,
+            'allDayItems' => $allDayData['items'],
+            'totalPlatosEnMarcha' => $allDayData['total_platos']
         ]);
     }
 

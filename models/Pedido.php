@@ -27,6 +27,7 @@ class Pedido extends ActiveRecord {
     public float $total;
     public ?string $creado_en = null;
     public ?string $actualizado_en = null;
+    public ?array $detalles = null;
 
     public const ESTADOS_VALIDOS = [
         'pendiente' => 'Pendiente de Confirmación',
