@@ -61,7 +61,7 @@
 
                 <div class="tracker-paso <?php echo ($pasoActivo >= 5) ? 'tracker-paso--completado' : ''; ?>">
                     <div class="tracker-paso__icono">
-                        <i class="fa-solid fa-house-chimney-check"></i>
+                        <i class="fa-solid fa-clipboard-check"></i>
                     </div>
                     <span class="tracker-paso__texto">5. Entregado</span>
                 </div>
